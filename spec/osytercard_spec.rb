@@ -4,7 +4,6 @@ describe Oystercard do
 
   context '#initialize a new card' do
     it { is_expected.to respond_to :top_up }
-    it { is_expected.to respond_to :deduct }
     it { is_expected.to respond_to :in_journey? }
     it { is_expected.to respond_to :touch_in }
     it { is_expected.to respond_to :touch_out }
@@ -28,10 +27,16 @@ describe Oystercard do
       expect { subject.touch_in }.to raise_error Oystercard::ERROR_MINIMUM_BALANCE
     end
 
+    it 'deducts money after end the journey' do
+      subject.top_up(90)
+      expect { subject.touch_out }.to change {subject.balance }.by -Oystercard::MINIMUM_CHARGE
+    end
+
     it 'touches out' do
       subject.touch_out
       expect(subject.in_journey?).to eq false
     end
+
 
   end
 
@@ -49,12 +54,4 @@ describe Oystercard do
     end
   end
 
-  context '#deduct' do
-    it 'deducts money' do
-      subject.top_up(90)
-      amount = 90
-    expect { subject.deduct(90) }.to change {subject.balance }.by -amount
-    end
   end
-
-end

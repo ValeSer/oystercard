@@ -5,6 +5,7 @@ class Oystercard
   ERROR_LIMIT_EXCEEDED = "top up limit of #{LIMIT} reached"
   ERROR_MINIMUM_BALANCE = 'Insufficient balance to touch in'
   MINIMUM_BALANCE = 1
+  MINIMUM_CHARGE = 1
 
   def initialize
     @balance =  0
@@ -15,10 +16,6 @@ class Oystercard
     raise ERROR_LIMIT_EXCEEDED if (@balance + amount) > 90
 
     @balance += amount
-  end
-
-  def deduct(amount)
-    @balance -= amount
   end
 
   def in_journey?
@@ -32,7 +29,15 @@ class Oystercard
   end
 
   def touch_out
+    deduct(MINIMUM_CHARGE)
     @in_journey
+  end
+
+  private
+
+  def deduct(amount)
+    amount = MINIMUM_CHARGE
+    @balance -= amount
   end
 
 end
