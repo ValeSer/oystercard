@@ -23,6 +23,11 @@ describe Oystercard do
       expect(subject.in_journey?).to eq true
     end
 
+    it 'raises an error if balance is less than 1£' do
+      subject.balance < Oystercard::MINIMUM_BALANCE
+      expect { subject.touch_in }.to raise_error Oystercard::ERROR_MINIMUM_BALANCE
+    end
+
     it 'touches out' do
       subject.touch_out
       expect(subject.in_journey?).to eq false
