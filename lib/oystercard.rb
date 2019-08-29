@@ -13,8 +13,7 @@ class Oystercard
   end
 
   def top_up(amount)
-    raise ERROR_LIMIT_EXCEEDED if (@balance + amount) > 90
-
+    raise ERROR_LIMIT_EXCEEDED if (@balance + amount) > LIMIT
     @balance += amount
   end
 
@@ -24,19 +23,17 @@ class Oystercard
 
   def touch_in
     raise ERROR_MINIMUM_BALANCE if @balance < MINIMUM_BALANCE
-
     @in_journey = true
   end
 
   def touch_out
     deduct(MINIMUM_CHARGE)
-    @in_journey
+     @in_journey = false
   end
 
   private
 
   def deduct(amount)
-    amount = MINIMUM_CHARGE
     @balance -= amount
   end
 
