@@ -5,6 +5,29 @@ describe Oystercard do
   context '#initialize a new card' do
     it { is_expected.to respond_to :top_up }
     it { is_expected.to respond_to :deduct }
+    it { is_expected.to respond_to :in_journey? }
+    it { is_expected.to respond_to :touch_in }
+    it { is_expected.to respond_to :touch_out }
+
+  end
+
+  context '#state of card' do
+
+    it 'is in journey?' do
+      expect(subject.in_journey?).to eq false
+    end
+
+    it 'touches in' do
+      subject.top_up(10)
+      subject.touch_in
+      expect(subject.in_journey?).to eq true
+    end
+
+    it 'touches out' do
+      subject.touch_out
+      expect(subject.in_journey?).to eq false
+    end
+
   end
 
   context '#top_up' do
