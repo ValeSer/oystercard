@@ -1,5 +1,5 @@
 class Oystercard
-  attr_reader :balance, :in_journey
+  attr_reader :balance, :in_journey, :entry_station
 
   LIMIT = 90
   ERROR_LIMIT_EXCEEDED = "top up limit of #{LIMIT} reached"
@@ -9,7 +9,7 @@ class Oystercard
 
   def initialize
     @balance =  0
-    @in_journey = false
+    @entry_station = nil
   end
 
   def top_up(amount)
@@ -18,17 +18,17 @@ class Oystercard
   end
 
   def in_journey?
-    @in_journey
+    @entry_station
   end
 
-  def touch_in
+  def touch_in(entry_station)
     raise ERROR_MINIMUM_BALANCE if @balance < MINIMUM_BALANCE
-    @in_journey = true
+    @entry_station = entry_station
   end
 
   def touch_out
     deduct(MINIMUM_CHARGE)
-     @in_journey = false
+     @entry_station = nil
   end
 
   private
