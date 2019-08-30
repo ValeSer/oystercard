@@ -90,11 +90,11 @@ let(:exit_station) {'exit_station'}
       subject.touch_out(exit_station)
     end
     it "creates a journey" do
-      expect(subject.journeys[-1]).to eq({entry: entry_station, exit: exit_station})
+      expect(subject.journeys[-1]).to eq({entry: entry_station, exit: exit_station, zone: 0})
     end
 
     it "stores my journey in the journeys array" do
-      expect(subject.journeys).to eq([{entry: entry_station, exit: exit_station}])
+      expect(subject.journeys).to eq([{entry: entry_station, exit: exit_station, zone: 0}])
     end
   end
 
